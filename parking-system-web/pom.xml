@@ -39,7 +39,7 @@
         <dependency>
             <groupId>com.progressoft.quartz</groupId>
             <artifactId>parking-system</artifactId>
-            <version>4.8-SNAPSHOT</version>
+            <version>4.9-SNAPSHOT</version>
         </dependency>
 
         <dependency>

@@ -19,12 +19,13 @@ public class assignSpotToEmployeeServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String parkingLotId = req.getParameter("parkingLotId");
         String employeeId = req.getParameter("employeeId");
+        String expiryDate = req.getParameter("expiryDate");
 
         try {
             ParkingLot parkingLot = Manager.getParkingManager().findParkingLotById(parkingLotId);
             Employee employee = Manager.getParkingManager().findEmployeeById(employeeId);
 
-            Manager.getParkingManager().assignSpotToEmployee(parkingLot, employee);
+            Manager.getParkingManager().assignSpotToEmployee(parkingLot, employee, expiryDate);
         } catch (ParkingSystemException e) {
             req.setAttribute("errorMessage", "Could not assign the parking spot to employee: " + e.getMessage());
         }

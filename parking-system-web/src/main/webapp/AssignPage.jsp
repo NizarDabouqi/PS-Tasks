@@ -104,6 +104,11 @@
         <label>Enter employee ID:</label>
         <label>
             <input type="text" name="employeeId">
+        </label><br>
+
+        <label>Enter expiry date (MM/DD/YYYY):</label>
+        <label>
+            <input type="date" name="expiryDate">
         </label>
 
         <c:if test="${not empty errorMessage}">
