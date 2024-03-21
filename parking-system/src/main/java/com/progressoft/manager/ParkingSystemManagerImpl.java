@@ -4,6 +4,7 @@ import com.progressoft.exception.ParkingSystemException;
 import com.progressoft.model.Employee;
 import com.progressoft.model.ParkingLot;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,7 +18,7 @@ public class ParkingSystemManagerImpl implements ParkingSystemManager<Map<String
     }
 
     @Override
-    public void assignSpotToEmployee(ParkingLot parkingLot, Employee employee) {
+    public void assignSpotToEmployee(ParkingLot parkingLot, Employee employee, String expiryDate) {
         if (parkingLot == null) {
             throw new ParkingSystemException("Parking ID not found");
         } else {
@@ -36,10 +37,15 @@ public class ParkingSystemManagerImpl implements ParkingSystemManager<Map<String
         } else if (existingEmployee != null) {
             throw new ParkingSystemException("The parking is assigned to another employee");
         }
+        updateParkingLotInfo(parkingLot, employee, expiryDate);
+    }
+
+    private static void updateParkingLotInfo(ParkingLot parkingLot, Employee employee, String expiryDate) {
         parkingLot.setEmployee(employee);
         parkingLot.setEmployeeId(employee.getId());
         parkingLot.setEmployeeName(employee.getName());
         parkingLot.setAvailable(false);
+        parkingLot.setExpiryDate(expiryDate);
     }
 
     @Override
@@ -48,6 +54,7 @@ public class ParkingSystemManagerImpl implements ParkingSystemManager<Map<String
         if (parkingLot.getEmployeeId() != null) {
             parkingLot.setEmployee(null);
             parkingLot.setAvailable(true);
+            parkingLot.setExpiryDate(null);
         } else {
             throw new ParkingSystemException("No employee assigned to this parking");
         }

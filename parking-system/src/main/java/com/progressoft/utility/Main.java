@@ -5,13 +5,37 @@ import com.progressoft.manager.ParkingSystemManagerDBImpl;
 import com.progressoft.model.Employee;
 import com.progressoft.model.ParkingLot;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+
+//        ArrayList<String> names = new ArrayList<>();
+//
+//        names.add("Nizar");
+//        names.add("George");
+//        names.add("Yard");
+//        names.add("Diana");
+//        names.add("Sarah");
+//
+//        HashMap<String, ParkingLot> random = new HashMap<>();
+//
+//        random.put("a2", new ParkingLot("a2"));
+//        random.put("a5", new ParkingLot("a5"));
+//        random.put("a6", new ParkingLot("a6"));
+//        random.put("a7", new ParkingLot("a7"));
+//
+//        random.forEach((id, parkingLot)  -> {
+//
+//
+//        } );
+
+
         ParkingSystemManagerDBImpl parkingSystemManagerDB = new ParkingSystemManagerDBImpl();
         Scanner scanner = new Scanner(System.in);
-
 
         while (true) {
             System.out.println("\nMenu:");
@@ -34,7 +58,10 @@ public class Main {
                         String parkingLotId = scanner.nextLine();
                         System.out.println("Enter employee ID:");
                         String employeeId = scanner.nextLine();
-                        parkingSystemManagerDB.assignSpotToEmployee(parkingSystemManagerDB.getAllParkingLots().get(parkingLotId), parkingSystemManagerDB.getAllEmployees().get(employeeId));
+                        System.out.println("Enter parking lot expiry date: (yyyy-MM-dd");
+                        String expiryDate = scanner.nextLine();
+
+                        parkingSystemManagerDB.assignSpotToEmployee(parkingSystemManagerDB.getAllParkingLots().get(parkingLotId), parkingSystemManagerDB.getAllEmployees().get(employeeId), expiryDate);
                         break;
                     case "2":
                         System.out.println("Enter parking lot ID to remove spot:");

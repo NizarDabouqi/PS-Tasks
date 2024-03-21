@@ -12,7 +12,7 @@ public class ParkingSystemConsoleUtility {
         System.out.println("\nParking Lots:");
         Collection<ParkingLot> values = parkingSystemManager.getAllParkingLots().values();
         for (ParkingLot parkingLot : values) {
-            System.out.println("Parking ID: " + parkingLot.getId() + ", Available: " + parkingLot.isAvailable() + ", Employee ID: " + parkingLot.getEmployeeId());
+            System.out.println("Parking ID: " + parkingLot.getId() + ", Available: " + parkingLot.isAvailable() + ", Employee ID: " + parkingLot.getEmployeeId() + ", Employee Name: " + parkingLot.getEmployeeName() + ", Expiry Date: " + parkingLot.getExpiryDate());
         }
     }
 

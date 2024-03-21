@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 
 public class DatabaseConnector {
@@ -59,12 +61,27 @@ public class DatabaseConnector {
     public static void updateParkingLot(ParkingLot parkingLot) {
         try (Connection connection = getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "UPDATE PARKING_LOTS SET available = ?, employee_id = ?, employee_name = ? WHERE id = ?");
+                    "UPDATE PARKING_LOTS SET available = ?, employee_id = ?, employee_name = ?, expiry_date = ? WHERE id = ?");
+
+
+            if (parkingLot.getExpiryDate() != null) {
+                DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                LocalDate date = LocalDate.parse(parkingLot.getExpiryDate(), inputFormatter);
+
+                DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                String reversedDate = outputFormatter.format(date);
+
+                preparedStatement.setString(4, reversedDate);
+            } else {
+                preparedStatement.setString(4, parkingLot.getExpiryDate());
+            }
+
             preparedStatement.setBoolean(1, parkingLot.isAvailable());
             preparedStatement.setString(2, parkingLot.getEmployeeId());
             preparedStatement.setString(3, parkingLot.getEmployeeName());
-            preparedStatement.setString(4, parkingLot.getId());
+            preparedStatement.setString(5, parkingLot.getId());
             preparedStatement.executeUpdate();
+
         } catch (SQLException e) {
             throw new ParkingSystemException("Error updating parking lot in the database");
         }

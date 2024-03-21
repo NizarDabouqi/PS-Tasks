@@ -6,6 +6,9 @@ import com.progressoft.model.Employee;
 import com.progressoft.model.ParkingLot;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Executors;
@@ -13,14 +16,13 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class ParkingSystemManagerDBImpl implements ParkingSystemManager<Map<String, ParkingLot>, Map<String, Employee>> {
-    private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-
     public ParkingSystemManagerDBImpl() {
-
+        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+        scheduler.scheduleAtFixedRate(this::checkExpiredParkingSpots, 0, 20, TimeUnit.SECONDS);
     }
 
     @Override
-    public void assignSpotToEmployee(ParkingLot parkingLot, Employee employee) {
+    public void assignSpotToEmployee(ParkingLot parkingLot, Employee employee, String expiryDate) {
         if (parkingLot == null) {
             throw new ParkingSystemException("Parking ID not found");
         } else {
@@ -39,46 +41,60 @@ public class ParkingSystemManagerDBImpl implements ParkingSystemManager<Map<Stri
         } else if (existingEmployee != null) {
             throw new ParkingSystemException("The parking is assigned to another employee");
         }
+
+        updateParkingLotInfo(parkingLot, employee, expiryDate);
+    }
+
+    private static void updateParkingLotInfo(ParkingLot parkingLot, Employee employee, String expiryDate) {
         parkingLot.setEmployee(employee);
         parkingLot.setEmployeeId(employee.getId());
         parkingLot.setEmployeeName(employee.getName());
         parkingLot.setAvailable(false);
+        parkingLot.setExpiryDate(expiryDate);
         DatabaseConnector.updateParkingLot(parkingLot);
-
-        ParkingLot finalParkingLot = parkingLot;
-
-        scheduler.schedule(() -> {
-            try {
-                // get all parking lots
-                // check each parking and its expiry date
-                // if the expiry date less than today's date or time
-                // call removeSpotFromEmployee
-                removeSpotFromEmployee(finalParkingLot);
-            } catch (ParkingSystemException e) {
-                e.printStackTrace();
-            }
-        }, 15, TimeUnit.MINUTES);
     }
 
+    private void checkExpiredParkingSpots() {
+        Map<String, ParkingLot> parkingLots = getAllParkingLots();
+        LocalDate currentDate = LocalDate.now();
+
+        Collection<ParkingLot> values = parkingLots.values();
+        for (ParkingLot parkingLot : values) {
+            String expiryDate = parkingLot.getExpiryDate();
+
+            if (expiryDate == null || expiryDate.isEmpty()) {
+                continue;
+            }
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            LocalDate parsedExpiryDate = LocalDate.parse(expiryDate, formatter);
+
+            if (parsedExpiryDate.isAfter(currentDate)) {
+                continue;
+            }
+
+            if (parsedExpiryDate.isBefore(currentDate)) {
+                removeSpotFromEmployee(parkingLot);
+            }
+        }
+    }
 
     @Override
     public void removeSpotFromEmployee(ParkingLot parkingLot) {
-        try {
-            if (parkingLot == null) {
-                throw new ParkingSystemException("Parking ID not found");
-            }
 
-            ParkingLot existingParkingLot = findParkingLotById(parkingLot.getId());
-            if (existingParkingLot.getEmployeeId() == null) {
-                throw new ParkingSystemException("No employee assigned to this parking");
-            }
-
-            existingParkingLot.setEmployee(null);
-            existingParkingLot.setAvailable(true);
-            DatabaseConnector.updateParkingLot(existingParkingLot);
-        } catch (ParkingSystemException e) {
-            throw e;
+        if (parkingLot == null) {
+            throw new ParkingSystemException("Parking ID not found");
         }
+
+        ParkingLot existingParkingLot = findParkingLotById(parkingLot.getId());
+        if (existingParkingLot.getEmployeeId() == null) {
+            throw new ParkingSystemException("No employee assigned to this parking");
+        }
+
+        existingParkingLot.setEmployee(null);
+        existingParkingLot.setAvailable(true);
+        existingParkingLot.setExpiryDate(null);
+        DatabaseConnector.updateParkingLot(existingParkingLot);
     }
 
     @Override
@@ -144,11 +160,6 @@ public class ParkingSystemManagerDBImpl implements ParkingSystemManager<Map<Stri
                 parkingLot.setEmployeeId(employeeId);
                 parkingLot.setEmployeeName(employeeName);
 
-//                if (employeeId != null && employeeName != null) {
-//                    parkingLot.setEmployeeId(employeeId);
-//                    parkingLot.setEmployeeName(employeeName);
-//                }
-
                 Employee employee = null;
                 if (employeeId != null && employeeName != null) {
                     employee = new Employee(employeeId, employeeName);
@@ -201,11 +212,13 @@ public class ParkingSystemManagerDBImpl implements ParkingSystemManager<Map<Stri
                 boolean available = resultSet.getBoolean("available");
                 String employeeId = resultSet.getString("employee_id");
                 String employeeName = resultSet.getString("employee_name");
+                String expiryDate = resultSet.getString("expiry_date");
 
                 Employee employee = new Employee(employeeId, employeeName);
                 ParkingLot parkingLot = new ParkingLot(id);
                 parkingLot.setEmployee(employee);
                 parkingLot.setAvailable(available);
+                parkingLot.setExpiryDate(expiryDate);
 
                 parkingLots.put(id, parkingLot);
             }
