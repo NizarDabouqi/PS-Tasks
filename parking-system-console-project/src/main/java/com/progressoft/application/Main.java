@@ -12,7 +12,6 @@ public class Main {
         ParkingSystemManagerDBImpl parkingSystemManagerDB = new ParkingSystemManagerDBImpl();
         Scanner scanner = new Scanner(System.in);
 
-
         while (true) {
             System.out.println("\nMenu:");
             System.out.println("1. Assign a spot to an employee");
@@ -34,7 +33,10 @@ public class Main {
                         String parkingLotId = scanner.nextLine();
                         System.out.println("Enter employee ID:");
                         String employeeId = scanner.nextLine();
-                        parkingSystemManagerDB.assignSpotToEmployee(parkingSystemManagerDB.getAllParkingLots().get(parkingLotId), parkingSystemManagerDB.getAllEmployees().get(employeeId));
+                        System.out.println("Enter parking lot expiry date: (yyyy-MM-dd)");
+                        String expiryDate = scanner.nextLine();
+
+                        parkingSystemManagerDB.assignSpotToEmployee(parkingSystemManagerDB.getAllParkingLots().get(parkingLotId), parkingSystemManagerDB.getAllEmployees().get(employeeId), expiryDate);
                         break;
                     case "2":
                         System.out.println("Enter parking lot ID to remove spot:");
