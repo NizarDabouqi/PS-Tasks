@@ -13,8 +13,8 @@ import java.time.format.DateTimeFormatter;
 
 
 public class DatabaseConnector {
-    private static final String URL = "jdbc:mysql://127.0.0.1:3306/jdbc_parking_system";
-    private static final String USERNAME = "nizar_sami";
+    private static final String URL = "jdbc:mysql://localhost:3306/jdbc_parking_system";
+    private static final String USERNAME = "root";
     private static final String PASSWORD = "P@ssw0rd";
 
     public static Connection getConnection() throws SQLException {
