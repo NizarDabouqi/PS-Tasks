@@ -19,7 +19,7 @@
         <dependency>
             <groupId>com.progressoft.quartz</groupId>
             <artifactId>parking-system</artifactId>
-            <version>5.1-SNAPSHOT</version>
+            <version>5.2-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
