@@ -33,7 +33,7 @@ public class Main {
                         String parkingLotId = scanner.nextLine();
                         System.out.println("Enter employee ID:");
                         String employeeId = scanner.nextLine();
-                        System.out.println("Enter parking lot expiry date: (yyyy-MM-dd");
+                        System.out.println("Enter parking lot expiry date: (yyyy-MM-dd)");
                         String expiryDate = scanner.nextLine();
 
                         parkingSystemManagerDB.assignSpotToEmployee(parkingSystemManagerDB.getAllParkingLots().get(parkingLotId), parkingSystemManagerDB.getAllEmployees().get(employeeId), expiryDate);

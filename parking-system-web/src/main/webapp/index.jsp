@@ -4,38 +4,8 @@
 <html>
 <head>
     <title>HomePage</title>
+    <link rel="stylesheet" type="text/css" href="../Styles/styles.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
-
-        #navbar {
-            background-color: #003268;
-            color: #fff;
-            padding: 10px;
-            text-align: center;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        #navbar h1 {
-            margin: 0;
-            font-size: 24px;
-            font-weight: bold;
-            letter-spacing: 2px;
-        }
-
-        #parkingForm {
-            width: 60%;
-            margin: 50px auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
         .button-container {
             display: flex;
             flex-direction: column;
@@ -77,11 +47,12 @@
 </head>
 
 <body>
-<div id="navbar">
+<div class="navbar">
     <h1>ProgressSoft Parking System</h1>
 </div>
 
-<form id="parkingForm" method="POST">
+<div class="container">
+<form method="POST">
     <h2 class="options-heading">Choose one of the options:</h2>
     <br>
 
@@ -97,7 +68,7 @@
         <button type="button" class="option-button" value="${pageContext.request.contextPath}/RemoveSpot.jsp">REMOVE PARKING SPOT</button>
     </div>
 </form>
-
+</div>
 </body>
 
 <script>

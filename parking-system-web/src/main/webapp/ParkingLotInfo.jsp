@@ -3,39 +3,8 @@
 <html>
 <head>
     <title>ParkingLotInfo</title>
+    <link rel="stylesheet" type="text/css" href="../Styles/styles.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-            margin: 0;
-            padding: 0;
-        }
-
-        #container {
-            width: 80%;
-            max-width: 800px;
-            margin: 50px auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        #navbar {
-            background-color: #003268;
-            color: #fff;
-            padding: 10px;
-            text-align: center;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        #navbar h1 {
-            margin: 0;
-            font-size: 24px;
-            font-weight: bold;
-            letter-spacing: 2px;
-        }
-
         h2 {
             font-size: 24px;
             color: black;
@@ -96,11 +65,11 @@
 </head>
 
 <body>
-<div id="navbar">
+<div class="navbar">
     <h1>ProgressSoft Parking System</h1>
 </div>
 
-<div id="container">
+<div class="container">
     <h2>Parking Spot Information:</h2>
 
     <form id="ParkingLot" method="POST">

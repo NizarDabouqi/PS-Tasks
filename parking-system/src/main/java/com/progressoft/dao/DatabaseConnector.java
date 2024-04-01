@@ -64,7 +64,8 @@ public class DatabaseConnector {
                     "UPDATE PARKING_LOTS SET available = ?, employee_id = ?, employee_name = ?, expiry_date = ? WHERE id = ?");
 
 
-            if (parkingLot.getExpiryDate() != null) {
+
+            if (parkingLot.getExpiryDate() != null && !parkingLot.getExpiryDate().isEmpty()) {
                 DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 LocalDate date = LocalDate.parse(parkingLot.getExpiryDate(), inputFormatter);
 
