@@ -32,7 +32,7 @@ public class LoginServlet extends HttpServlet {
         // Send data to a JSP and redirect to the JSP
         req.setAttribute("username", username);
         req.setAttribute("password", password);
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("loginPage.jsp");
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("");
         requestDispatcher.forward(req, resp);
     }
 }

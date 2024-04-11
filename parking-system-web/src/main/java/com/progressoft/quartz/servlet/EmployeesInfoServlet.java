@@ -19,7 +19,7 @@ public class EmployeesInfoServlet extends HttpServlet {
         Collection<Employee> values = Manager.getParkingManager().getAllEmployees().values();
         req.setAttribute("employees", values);
 
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("EmployeesInfo.jsp");
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("employeesInfoPage.jsp");
         requestDispatcher.forward(req, resp);
 
     }

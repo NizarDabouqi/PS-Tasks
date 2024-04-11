@@ -25,7 +25,7 @@ public class RemoveEmployeeServlet extends HttpServlet {
             req.setAttribute("errorMessage", "Could not remove the employee: " + e.getMessage());
         }
 
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("RemoveEmployee.jsp");
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("removeEmployeePage.jsp");
         requestDispatcher.forward(req, resp);
     }
 }

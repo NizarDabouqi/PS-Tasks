@@ -27,7 +27,7 @@ public class RemoveSpotFromEmployeeServlet extends HttpServlet {
             req.setAttribute("errorMessage", "Could not remove the parking spot from employee: " + e.getMessage());
         }
 
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("RemoveSpotFromEmployee.jsp");
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("removeSpotFromEmployeePage.jsp");
         requestDispatcher.forward(req, resp);
     }
 }

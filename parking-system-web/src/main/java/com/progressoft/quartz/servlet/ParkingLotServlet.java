@@ -26,7 +26,7 @@ public class ParkingLotServlet extends HttpServlet {
         }
 
         // Send data to a JSP and redirect to the JSP
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("ParkingLot.jsp");
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("parkingLotPage.jsp");
         requestDispatcher.forward(req, resp);
     }
 }

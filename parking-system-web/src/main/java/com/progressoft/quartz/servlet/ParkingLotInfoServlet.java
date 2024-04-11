@@ -41,7 +41,7 @@ public class ParkingLotInfoServlet extends HttpServlet {
         }
 
 
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("ParkingLotInfo.jsp");
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("parkingLotInfoPage.jsp");
         requestDispatcher.forward(req, resp);
     }
 }

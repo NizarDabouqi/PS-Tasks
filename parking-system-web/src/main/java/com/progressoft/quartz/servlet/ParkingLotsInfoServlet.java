@@ -13,14 +13,15 @@ import java.io.IOException;
 import java.util.Collection;
 
 
-@WebServlet(value = {"/ParkingLotsInfo"}, name = "ParkingLotsInfoServlet")
+@WebServlet(value = {""}, name = "ParkingLotsInfoServlet")
 public class ParkingLotsInfoServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Collection<ParkingLot> values = Manager.getParkingManager().getAllParkingLots().values();
         req.setAttribute("parkingLots", values);
 
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("ParkingLotsInfo.jsp");
+
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("index.jsp");
         requestDispatcher.forward(req, resp);
     }
 }

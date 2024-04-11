@@ -26,7 +26,7 @@ public class EmployeeServlet extends HttpServlet {
             req.setAttribute("errorMessage", "Could not save the employee: " + e.getMessage());
         }
 
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("Employee.jsp");
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("employeePage.jsp");
         requestDispatcher.forward(req, resp);
     }
 }
